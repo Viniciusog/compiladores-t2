@@ -1,0 +1,2 @@
+mismatched input 'declare' expecting ':'
+Minha mensagem customizada: Erro na linha 4, o token é declare
