@@ -31,7 +31,7 @@ java -jar ./target/AlgumaParser-1.0-SNAPSHOT-jar-with-dependencies.jar entrada.t
 Pronto, o resultado gerado pelo parser estará no arquivo saida.txt dentro da pasta do projeto.
 
 ## Rodando o corretor automático
-(Obs: Todos os resultados gerados pelo corretor automático já estão dentro do diretório t1/correcaoAutomatica/temp/saidaProduzida/saida_t1)
+(Obs: Todos os resultados gerados pelo corretor automático já estão dentro do diretório correcaoAutomatica/temp/saidaProduzida/saida_t2)
 
 Entre na pasta correcaoAutomatica
 
