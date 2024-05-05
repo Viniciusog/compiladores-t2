@@ -1,2 +1,0 @@
-mismatched input 'algoritmo' expecting ':'
-Minha mensagem customizada: Erro na linha 5, o token é algoritmo

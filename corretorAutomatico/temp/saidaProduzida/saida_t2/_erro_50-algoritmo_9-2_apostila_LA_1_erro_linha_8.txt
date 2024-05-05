@@ -1,2 +1,0 @@
-mismatched input 'tipo' expecting ':'
-Minha mensagem customizada: Erro na linha 4, o token é tipo

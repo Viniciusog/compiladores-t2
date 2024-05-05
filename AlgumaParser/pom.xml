@@ -5,25 +5,22 @@
     <artifactId>AlgumaParser</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    
-     <!-- Serve para que o maven consiga executar a execução 
-    do antlr na hora de realizar o build do projeto -->   
-        <build>
+    <build>
         <plugins>
-          <plugin>
-            <groupId>org.antlr</groupId>
-            <artifactId>antlr4-maven-plugin</artifactId>
-            <version>4.3</version>
-            <executions>
-              <execution>
-                <id>antlr</id>
-                <goals>
-                  <goal>antlr4</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-           <plugin>
+            <plugin>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-maven-plugin</artifactId>
+                <version>4.7.2</version>
+                <executions>
+                    <execution>
+                        <id>antlr</id>
+                        <goals>
+                            <goal>antlr4</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <archive>
@@ -46,20 +43,18 @@
                 </executions>
             </plugin>
         </plugins>
-      </build>  
-    
+    </build>
     <dependencies>
-        <dependency> 
-            <groupId>org.antlr</groupId> 
-            <artifactId>antlr4</artifactId> 
-            <version>4.7.2</version> 
-          </dependency>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4</artifactId>
+            <version>4.7.2</version>
+        </dependency>
     </dependencies>
-        
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <exec.mainClass>br.ufscar.dc.compiladores.algumaparser.AlgumaParser</exec.mainClass>
+        <exec.mainClass>br.ufscar.dc.compiladores.alguma.sintatico.Principal</exec.mainClass>
     </properties>
 </project>

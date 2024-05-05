@@ -1,10 +1,12 @@
 grammar Alguma;
 
+//ANALISE LEXICA
+
 // Algoritmo
 ALGORITMO: 'algoritmo';
 FIM_ALGORITMO: 'fim_algoritmo';
 
-// Struct 
+// Struct
 REGISTRO: 'registro';
 FIM_REGISTRO: 'fim_registro';
 
@@ -72,8 +74,8 @@ ENDERECO:'&';
 PONT: '^';
 
 // Números
-// NUM_INT: ('0'..'9')+;
-// NUM_REAL: ('0'..'9')+ '.' ('0'..'9')+;
+NUM_INT: ('0'..'9')+;
+NUM_REAL: ('0'..'9')+ '.' ('0'..'9')+;
 
 // Identificadores
 IDENT: ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
@@ -99,157 +101,57 @@ COMENTARIO_NAO_FECHADO: '{' ~('}')* '\n';
 // White-spaces
 WS: (' ' | '\t' | '\r' | '\n') -> skip;
 
-
-// CONTEÚDO DO SEGUNDO TRABALHO
-
-TIPO_VAR 
-	:	'INTEIRO' | 'REAL';
-
-NUMINT
-	:	('0'..'9')+
-	;
-
-NUMREAL
-	:	('0'..'9')+ ('.' ('0'..'9')+)?
-	;
-	
-VARIAVEL
-	:	('a'..'z'|'A'..'Z') ('a'..'z'|'A'..'Z'|'0'..'9')*
-	;
-
-//CADEIA
-//	:	'\'' ( ESC_SEQ | ~('\''|'\\') )* '\''
-//	;
-
-//CADEIA_NAO_FECHADA: '"' ('\\"' | ~('"' | '\\' | '\n'))* '\n';
-	
-OP_ARIT1
-	:	'+' | '-'
-	;
-
-OP_ARIT2
-	:	'*' | '/'
-	;
-
-OP_REL
-	:	'>' | '>=' | '<' | '<=' | '<>' | '='
-	;
-
-OP_BOOL	
-	:	'E' | 'OU'
-	;
-	
-
-ESC_SEQ
-	:	'\\\'';
-
-//COMENTARIO
-//      :	'%' ~('\n'|'\r')* '\r'? '\n' {skip();}
-//	;
-
-//COMENTARIO_NAO_FECHADO: '{' ~('}')* '\n';
-
-//WS 	:	( ' ' |'\t' | '\r' | '\n') {skip();}
-//	;
-	
-programa
-	:	 DECLARE listaDeclaracoes ':' 'ALGORITMO' listaComandos EOF
-	;
-	
-listaDeclaracoes
-	:	declaracao listaDeclaracoes | declaracao
-	;
-	
-declaracao
-	:	VARIAVEL ':' TIPO_VAR
-	;
-	
-expressaoAritmetica
-	:	expressaoAritmetica OP_ARIT1 termoAritmetico
-	|	termoAritmetico
-	;
-	
-termoAritmetico
-	:	termoAritmetico OP_ARIT2 fatorAritmetico
-	|	fatorAritmetico
-	;
-	
-fatorAritmetico
-	:	NUMINT
-	|	NUMREAL
-	|	VARIAVEL
-	|	'(' expressaoAritmetica ')'
-	;
-	
-expressaoRelacional
-	:	expressaoRelacional OP_BOOL termoRelacional
-	|	termoRelacional
-	;
-	
-termoRelacional
-	:	expressaoAritmetica OP_REL expressaoAritmetica
-	|	'(' expressaoRelacional ')'
-	;
-	
-
-listaComandos
-	:	comando listaComandos
-	|	comando
-	;
-	
-comando
-	:	comandoAtribuicao
-	|	comandoEntrada
-	|	comandoSaida
-	|	comandoCondicao
-	|	comandoRepeticao
-	|	subAlgoritmo
-	;
-	
-comandoAtribuicao
-	:	'ATRIBUIR' expressaoAritmetica 'A' VARIAVEL
-	;
-	
-comandoEntrada
-	:	'LER' VARIAVEL
-	;
-comandoSaida
-	:	'IMPRIMIR' (VARIAVEL | CADEIA)
-	;
-	
-comandoCondicao
-	:	'SE' expressaoRelacional 'ENTAO' comando
-	|	'SE' expressaoRelacional 'ENTAO' comando 'SENAO' comando
-	;
-	
-comandoRepeticao
-	:	'ENQUANTO' expressaoRelacional comando
-	;
-subAlgoritmo
-	: 'INICIO' listaComandos 'FIM'
-	;
-
 // Cadeia que não caiu em nenhuma classificação ("Coringa")
 ERRO: .;
 
-
-/*
-programa : ':' 'DECLARACOES' listaDeclaracoes ':' 'ALGORITMO' listaComandos;
-listaDeclaracoes : declaracao listaDeclaracoes | declaracao;
-declaracao : VAR ':' tipoVar;
-tipoVar : 'INTEIRO' | 'REAL';
-expressaoAritmetica : expressaoAritmetica '+' termoAritmetico | expressaoAritmetica '-' termoAritmetico | termoAritmetico;
-termoAritmetico : termoAritmetico '*' fatorAritmetico | termoAritmetico '/' fatorAritmetico | fatorAritmetico;
-fatorAritmetico : NUM_INT | NUM_REAL | VAR | '(' expressaoAritmetica ')';
-expressaoRelacional : expressaoRelacional operadorBooleano termoRelacional | termoRelacional;
-termoRelacional : expressaoAritmetica (E | OU) expressaoAritmetica | '(' expressaoRelacional ')';
-operadorBooleano : 'E' | 'OU';
-listaComandos : comando listaComandos | comando;
-comando : comandoAtribuicao | comandoEntrada | comandoSaida | comandoCondicao | comandoRepeticao | subAlgoritmo;
-comandoAtribuicao : 'ATRIBUIR' expressaoAritmetica 'A' VAR;
-comandoEntrada : 'LER' VAR;
-comandoSaida : 'IMPRIMIR'  (VAR | CADEIA);
-comandoCondicao : 'SE' expressaoRelacional 'ENTAO' comando | 'SE' expressaoRelacional 'ENTAO' comando 'SENAO' comando;
-comandoRepeticao : 'ENQUANTO' expressaoRelacional comando;
-subAlgoritmo : 'INICIO' listaComandos 'FIM';
-*/
+//ANALISE SINTATICA (PARSER)
+programa: declaracoes 'algoritmo' corpo 'fim_algoritmo';
+declaracoes: decl_local_global*;
+decl_local_global: declaracao_local | declaracao_global;
+declaracao_local: 'declare' variavel | 'constante' IDENT ':' tipo_basico '=' valor_constante | 'tipo' IDENT ':' tipo;
+variavel: identificador (',' identificador)* ':' tipo;
+identificador: IDENT ( '.' IDENT)* dimensao;
+dimensao: ('[' exp_aritmetica ']')*;
+tipo: registro | tipo_estendido;
+tipo_basico: 'literal' | 'inteiro' | 'real' | 'logico';
+tipo_basico_ident: tipo_basico | IDENT;
+tipo_estendido: ('^')? tipo_basico_ident;
+valor_constante: CADEIA | NUM_INT | NUM_REAL | 'verdadeiro' | 'falso';
+registro: 'registro' variavel* 'fim_registro';
+declaracao_global: 'procedimento' IDENT '(' parametros? ')' declaracao_local* cmd* 'fim_procedimento' | 'funcao' IDENT '(' parametros? ')' ':' tipo_estendido declaracao_local* cmd* 'fim_funcao' ;
+parametro: 'var'? identificador ( ',' identificador)* ':' tipo_estendido;
+parametros: parametro (',' parametro)*;
+corpo: declaracao_local* cmd*;
+cmd: cmdLeia | cmdEscreva | cmdSe | cmdCaso | cmdPara | cmdEnquanto | cmdFaca | cmdAtribuicao | cmdChamada | cmdRetorne;
+cmdLeia: 'leia' '(' '^'? identificador ( ',' '^'? identificador)* ')';
+cmdEscreva: 'escreva' '(' expressao ( ',' expressao)* ')';
+cmdSe: 'se' expressao 'entao' cmd* ('senao' cmd*)? 'fim_se';
+cmdCaso: 'caso' exp_aritmetica 'seja' selecao ('senao' cmd*)? 'fim_caso';
+cmdPara: 'para' IDENT '<-' exp_aritmetica 'ate' exp_aritmetica 'faca' cmd* 'fim_para';
+cmdEnquanto: 'enquanto' expressao 'faca' cmd* 'fim_enquanto';
+cmdFaca: 'faca' cmd* 'ate' expressao ;
+cmdAtribuicao: '^'? identificador '<-' expressao ;
+cmdChamada: IDENT '(' expressao (',' expressao)* ')';
+cmdRetorne: 'retorne' expressao;
+selecao: item_selecao*;
+item_selecao: constantes ':' cmd*;
+constantes: numero_intervalo ('..' numero_intervalo)*;
+numero_intervalo: op_unario? NUM_INT ('. .' op_unario? NUM_INT)?;
+op_unario: '-';
+exp_aritmetica: termo (op1 termo)*;
+termo: fator (op2 fator)*;
+fator: parcela (op3 parcela)*;
+op1: '+' | '-';
+op2: '*' | '/';
+op3: '%';
+parcela: op_unario? parcela_unario | parcela_nao_unario;
+parcela_unario: '^'? identificador | IDENT '(' expressao (',' expressao)? ')' | NUM_INT | NUM_REAL | '(' expressao ')';
+parcela_nao_unario: '&' identificador | CADEIA;
+exp_relacional: exp_aritmetica (op_relacional exp_aritmetica)?;
+op_relacional: '=' | '<>' | '>=' | '<=' | '>' | '<';
+expressao: termo_logico (op_logico_1 termo_logico)*;
+termo_logico: fator_logico (op_logico_2 fator_logico)*;
+fator_logico: 'nao'? parcela_logica;
+parcela_logica: ( 'verdadeiro' | 'falso' ) | exp_relacional ;
+op_logico_1: 'ou';
+op_logico_2: 'e';

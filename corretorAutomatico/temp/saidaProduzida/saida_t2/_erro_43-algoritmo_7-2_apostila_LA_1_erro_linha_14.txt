@@ -1,2 +1,1 @@
-mismatched input 'algoritmo' expecting ':'
-Minha mensagem customizada: Erro na linha 3, o token é algoritmo
+Linha 14: ! - simbolo nao identificadoFim da compilacao

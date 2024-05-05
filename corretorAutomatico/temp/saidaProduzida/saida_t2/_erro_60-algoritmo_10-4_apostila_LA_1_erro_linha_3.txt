@@ -1,2 +1,0 @@
-mismatched input 'constante' expecting ':'
-Minha mensagem customizada: Erro na linha 3, o token é constante
