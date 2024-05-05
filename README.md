@@ -11,7 +11,7 @@ Apache Maven 3.9.1
 
 ## Como rodar?
 
-### Rodar o nosso analisador léxico
+### Rodar o nosso parser
 Entre na pasta do projeto
 
 Insira no arquivo **entrada.txt** o conteúdo que o parser vai ler.
